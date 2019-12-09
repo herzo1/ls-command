@@ -17,6 +17,7 @@ int main(int argc, char **argv){
 	} else if(argc==1){
 		n=scandir(".", &namelist, NULL, alphasort);
 	} else {
+		printf("%s\n", argv[1]);
 		n=scandir(argv[1], &namelist, NULL, alphasort);
 	}
 	if(n<0){
@@ -24,9 +25,11 @@ int main(int argc, char **argv){
 		exit(EXIT_FAILURE);
 	} else {
 		for(int i=0; i<n; i++){
-			if(0 != stat(namelist[i]->d_name, &s)){
-				perror("stat");
-				exit(EXIT_FAILURE);
+			stat(namelist[i]->d_name, &s);
+			if(s.st_mode & S_IFREG){
+				// perror("stat");
+				// exit(EXIT_FAILURE);
+				printf("%s\n", namelist[i]->d_name);
 			} else switch (s.st_mode & S_IFMT){
 				case S_IFDIR:
 					if(namelist[i]->d_name[0] != '.'){
@@ -43,8 +46,6 @@ int main(int argc, char **argv){
 					}
 					break;
 			}
-
-			// printf("%s\n", namelist[i]->d_name);
 			free(namelist[i]);
 		}
 		free(namelist);
