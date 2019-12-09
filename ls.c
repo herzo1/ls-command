@@ -17,12 +17,13 @@ int main(int argc, char **argv){
 	} else if(argc==1){
 		n=scandir(".", &namelist, NULL, alphasort);
 	} else {
-		printf("%s\n", argv[1]);
+		// printf("%s\n", argv[1]);
 		n=scandir(argv[1], &namelist, NULL, alphasort);
 	}
 	if(n<0){
-		perror("scandir");
-		exit(EXIT_FAILURE);
+		// perror("scandir");
+		// exit(EXIT_FAILURE);
+		printf("%s\n", argv[1]);
 	} else {
 		for(int i=0; i<n; i++){
 			stat(namelist[i]->d_name, &s);
